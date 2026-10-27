@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import type { Team } from '../types'
+import Round3TeamPanel from '../components/Round3TeamPanel'
 
 type GameRound = {
   id: string
@@ -618,6 +619,15 @@ export function WaitingRoom() {
           )}
           {predictionMessage && <p className="waiting-bet-message" role="status">{predictionMessage}</p>}
         </section>
+        <Round3TeamPanel
+  eventId={team.event_id}
+  balance={currentBalance}
+  eliminated={Boolean(
+    team.is_eliminated ||
+    team.status === 'eliminated'
+  )}
+  onRefresh={loadData}
+/>
 
         <section className="waiting-teams">
           <div className="waiting-section-heading">

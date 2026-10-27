@@ -184,7 +184,6 @@ export function AuthPage() {
   }
 
   const isTeamRegistration = mode === 'register'
-  const isTeamLogin = mode === 'login' && loginType === 'team'
   const isHostLogin = mode === 'login' && loginType === 'host'
 
   return (
