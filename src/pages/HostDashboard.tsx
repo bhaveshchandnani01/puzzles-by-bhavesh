@@ -893,6 +893,48 @@ export default function HostDashboard() {
         onRefresh={loadDashboard}
       />
 
+      
+
+      <section className="host-section">
+        <h2>TEAMS & COIN BALANCES</h2>
+        <div className="host-teams-list">
+          {teams.map((team) => (
+            <article className="host-team-card" key={team.id}>
+              <div>
+                <strong>{team.team_name}</strong>
+                <p>{team.is_eliminated || team.status === 'eliminated' ? 'Eliminated' : 'Active'}</p>
+              </div>
+              <strong>{team.coin_balance} coins</strong>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="host-section">
+        <h2>ROUND 1 · SETTLED BETS</h2>
+        {!settledBets.length && <p>No Round 1 bets settled yet.</p>}
+        <div className="host-bets-list">
+          {settledBets.map((bet) => {
+            const team = teams.find((item) => item.id === bet.team_id);
+            return (
+              <article className="host-bet-card" key={bet.id}>
+                <div className="host-bet-details">
+                  <h3>{team?.team_name ?? 'Unknown Team'}</h3>
+                  <p>{bet.difficulty.toUpperCase()} · {bet.amount} COINS</p>
+                </div>
+                <strong>{bet.result?.toUpperCase() ?? 'SETTLED'}</strong>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+
+      {event.status === 'round2' && settledMatches.length > 0 && (
+        <section className="host-section">
+          <h2>COMPLETED ROUND 2 MATCHES</h2>
+          <p>{settledMatches.length} match(es) settled.</p>
+        </section>
+      )}
       <section className="host-section">
         <h2>EMERGENCY POWERS · HANDLE WITH DRAMA</h2>
         <p>These controls can change live game data. Double-check before confirming.</p>
@@ -1047,47 +1089,6 @@ export default function HostDashboard() {
           </div>
         </div>
       </section>
-
-      <section className="host-section">
-        <h2>TEAMS & COIN BALANCES</h2>
-        <div className="host-teams-list">
-          {teams.map((team) => (
-            <article className="host-team-card" key={team.id}>
-              <div>
-                <strong>{team.team_name}</strong>
-                <p>{team.is_eliminated || team.status === 'eliminated' ? 'Eliminated' : 'Active'}</p>
-              </div>
-              <strong>{team.coin_balance} coins</strong>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="host-section">
-        <h2>ROUND 1 · SETTLED BETS</h2>
-        {!settledBets.length && <p>No Round 1 bets settled yet.</p>}
-        <div className="host-bets-list">
-          {settledBets.map((bet) => {
-            const team = teams.find((item) => item.id === bet.team_id);
-            return (
-              <article className="host-bet-card" key={bet.id}>
-                <div className="host-bet-details">
-                  <h3>{team?.team_name ?? 'Unknown Team'}</h3>
-                  <p>{bet.difficulty.toUpperCase()} · {bet.amount} COINS</p>
-                </div>
-                <strong>{bet.result?.toUpperCase() ?? 'SETTLED'}</strong>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
-      {event.status === 'round2' && settledMatches.length > 0 && (
-        <section className="host-section">
-          <h2>COMPLETED ROUND 2 MATCHES</h2>
-          <p>{settledMatches.length} match(es) settled.</p>
-        </section>
-      )}
     </main>
   );
 }
