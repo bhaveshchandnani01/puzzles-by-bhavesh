@@ -248,7 +248,7 @@ export function WaitingRoom() {
     return (
       <main className="puzzles-page">
         <div className="waiting-shell">
-          <p>Your team is loading. Please refresh in a moment.</p>
+          <p>Your team is loading. The chaos department is on it. Refresh in a moment.</p>
         </div>
       </main>
     )
@@ -298,12 +298,12 @@ export function WaitingRoom() {
     }
 
     if (parsedAmount > currentBalance) {
-      setBetMessage('Your team does not have enough coins.')
+      setBetMessage('Insufficient coins. Your financial advisor has left the chat.')
       return
     }
 
     const confirmed = window.confirm(
-      `Bet ${parsedAmount} coins on ${difficulty.toUpperCase()}? Your stake will be deducted immediately.`,
+      `You're betting ${parsedAmount} coins on ${difficulty.toUpperCase()}?\n\nYour stake will be deducted immediately. No refunds. No excuses. Only character development.`,
     )
 
     if (!confirmed) return
@@ -323,7 +323,7 @@ export function WaitingRoom() {
     if (submitError) {
       setBetMessage(submitError.message)
     } else {
-      setBetMessage('Bet locked! Wait for the host to announce your result.')
+      setBetMessage('BET LOCKED. Your future self would like a word.')
       setAmount('')
       await loadData()
     }
@@ -340,25 +340,25 @@ export function WaitingRoom() {
 
     const amountToStake = Number(predictionAmount)
     if (!Number.isSafeInteger(amountToStake) || amountToStake <= 0) {
-      setPredictionMessage('Enter a whole number of coins greater than zero.')
+      setPredictionMessage('Enter a whole number greater than zero. We cannot accept vibes as currency.')
       return
     }
     if (amountToStake > currentBalance) {
-      setPredictionMessage('Your team does not have enough coins.')
+      setPredictionMessage('Insufficient coins. Your financial advisor has left the chat.')
       return
     }
     if (ownTeam.is_eliminated || ownTeam.status === 'eliminated') {
-      setPredictionMessage('Eliminated teams cannot place predictions.')
+      setPredictionMessage('Eliminated teams cannot place predictions. Please haunt responsibly.')
       return
     }
     if (myPredictionForTarget(predictionTarget)) {
-      setPredictionMessage('Your team has already predicted this team.')
+      setPredictionMessage('You have already backed this team. One questionable decision per team, please.')
       return
     }
 
     const target = teams.find((item) => item.id === predictionTarget)
     const confirmed = window.confirm(
-      `Stake ${amountToStake} coins on ${target?.team_name ?? 'this team'} to win? Correct predictions pay the stake plus 5 bonus coins.`,
+      `You're backing ${target?.team_name ?? 'this team'} with ${amountToStake} coins?\n\nA correct prediction returns your stake plus 5 bonus coins. If you're wrong, pretend this never happened.`,
     )
     if (!confirmed) return
 
@@ -373,7 +373,7 @@ export function WaitingRoom() {
     if (predictionError) {
       setPredictionMessage(predictionError.message)
     } else {
-      setPredictionMessage('Prediction locked! Your stake has been deducted.')
+      setPredictionMessage('PREDICTION LOCKED. The audacity has been recorded.')
       setPredictionAmount('')
       setPredictionTarget('')
       await loadData()
@@ -386,14 +386,14 @@ export function WaitingRoom() {
       <div className="waiting-shell">
         <header className="waiting-header">
           <div className="waiting-mark">♛</div>
-          <p className="waiting-eyebrow">PUZZLES 2026 · TEAM LOBBY</p>
+          <p className="waiting-eyebrow">PUZZLES 2026 · THE CHAOS DEPARTMENT</p>
           <h1>
             You're in,
             <br />
             <span>{team.team_name}.</span>
           </h1>
           <p className="waiting-description">
-            Your team is in the arena. Get ready to think, compete, and outplay.
+            You're officially in. Your strategy is unverified, your confidence is concerning.
           </p>
           <div className="waiting-status">
             <span className="waiting-status-dot" />
@@ -403,13 +403,13 @@ export function WaitingRoom() {
 
         <section className="waiting-balance">
           <div>
-            <p className="waiting-label">YOUR CURRENT BALANCE</p>
+            <p className="waiting-label">YOUR FINANCIAL SITUATION</p>
             <p className="waiting-coins">
               <span aria-hidden="true">◈</span> {currentBalance}
               <span className="waiting-coin-word">coins</span>
             </p>
             <p className="waiting-subtext">
-              Your coins update as bets are placed and settled.
+              Every coin has a purpose. Yours probably doesn't.
             </p>
           </div>
           <div className="waiting-coin-icon" aria-hidden="true">
@@ -419,10 +419,9 @@ export function WaitingRoom() {
 
         <section className="waiting-betting">
           <p className="waiting-label">ROUND 01</p>
-          <h2>Place your bet</h2>
+          <h2>Put Your Coins Where Your Mouth Is</h2>
           <p className="waiting-description">
-            Choose one challenge and stake your coins. Once submitted, your bet
-            is locked for this round.
+            Pick your difficulty, risk your coins, and pray your confidence was justified. Bets are final.
           </p>
 
           {loading && (
@@ -431,7 +430,7 @@ export function WaitingRoom() {
 
           {!loading && !round && (
             <p className="waiting-message">
-              The host hasn't configured Round 1 yet.
+              The host is still plotting. Please remain dramatically patient.
             </p>
           )}
 
@@ -470,7 +469,7 @@ export function WaitingRoom() {
                       <span className="waiting-difficulty-challenge">
                         {typeof itemChallenge === 'string' && itemChallenge
                           ? itemChallenge
-                          : 'Challenge details coming soon'}
+                          : 'Mystery challenge. Suspiciously convenient.'}
                       </span>
                     </button>
                   )
@@ -479,17 +478,17 @@ export function WaitingRoom() {
 
               {bet ? (
                 <div className="waiting-bet-confirmation">
-                  <p className="waiting-label">YOUR BET IS LOCKED</p>
+                  <p className="waiting-label">NO TAKE-BACKSIES</p>
                   <h3>
                     {bet.difficulty.toUpperCase()} · {bet.amount} coins
                   </h3>
                   <p>
-                    {bet.is_settled
-                      ? bet.result === 'won'
-                        ? 'You won! Your payout has been added to your balance.'
-                        : 'This bet was lost. Your stake has been deducted.'
-                      : 'Waiting for the host to mark your result.'}
-                  </p>
+  {bet.is_settled
+    ? bet.result === 'won'
+      ? 'OKAY, EINSTEIN. WE SEE YOU.'
+      : 'The bet is lost. Your financial advisor has left the chat.'
+    : 'The jury is out. Your fate is now someone else’s problem.'}
+</p>
                   {bet.is_settled && (
                     <p>Result: {bet.result?.toUpperCase()}</p>
                   )}
@@ -497,7 +496,7 @@ export function WaitingRoom() {
               ) : bettingOpen ? (
                 <>
                   <div className="waiting-bet-input">
-                    <label htmlFor="bet-amount">Your bet amount</label>
+                    <label htmlFor="bet-amount">Coins you are willing to emotionally lose</label>
                     <input
                       id="bet-amount"
                       type="number"
@@ -516,7 +515,7 @@ export function WaitingRoom() {
                   </div>
 
                   <div className="waiting-payout">
-                    <span>Potential total payout</span>
+                    <span>Potential comeback arc</span>
                     <strong>
                       {Number.isInteger(Number(amount)) && Number(amount) > 0
                         ? Number(amount) * multiplier
@@ -532,12 +531,12 @@ export function WaitingRoom() {
                     onClick={() => void submitBet()}
                     disabled={!canBet || betLoading}
                   >
-                    {betLoading ? 'LOCKING BET…' : 'LOCK IN BET'}
+                    {betLoading ? 'LOCKING BET…' : 'LOCK IT IN. NO DRAMA LATER.'}
                   </button>
                 </>
               ) : (
                 <p className="waiting-message">
-                  Betting is closed. Wait for the host to open the round.
+                  The betting window is shut. Take it up with management.
                 </p>
               )}
 
@@ -558,13 +557,13 @@ export function WaitingRoom() {
 
         <section className="waiting-betting">
           <p className="waiting-label">ROUND 02</p>
-          <h2>Back a team to win</h2>
+          <h2>Pick Your Favorite Future Victim</h2>
           <p className="waiting-description">
-            Choose a team in a pending matchup and stake coins on them. A correct prediction returns your stake plus 5 bonus coins.
+            Pick a team in an open matchup and put your coins behind your questionable judgment. Correct predictions return your stake plus 5 bonus coins.
           </p>
 
           {activeRound2Matches.length === 0 ? (
-            <p className="waiting-message">No Round 2 matchups are open for predictions yet. The host needs to create a matchup first.</p>
+            <p className="waiting-message">No matchups yet. The host is still arranging the drama.</p>
           ) : (
             <>
               <div className="waiting-difficulty-list">
@@ -596,11 +595,11 @@ export function WaitingRoom() {
 
               {predictionTarget && (
                 <div className="waiting-bet-input">
-                  <label htmlFor="round2-prediction-amount">Coins to stake</label>
+                  <label htmlFor="round2-prediction-amount">Coins to risk for the plot</label>
                   <input id="round2-prediction-amount" type="number" min={1} max={currentBalance} step={1} value={predictionAmount} onChange={(event) => setPredictionAmount(event.target.value)} placeholder={`1–${currentBalance} coins`} disabled={predictionLoading} />
                   <p>Current balance: {currentBalance} coins · Correct prediction: stake + 5 bonus coins.</p>
                   <button type="button" className="waiting-submit-bet" onClick={() => void submitRound2Prediction()} disabled={predictionLoading || !predictionAmount || currentBalance <= 0}>
-                    {predictionLoading ? 'LOCKING PREDICTION…' : 'LOCK IN PREDICTION'}
+                    {predictionLoading ? 'LOCKING PREDICTION…' : 'BACK YOUR BAD DECISION'}
                   </button>
                 </div>
               )}
@@ -609,7 +608,7 @@ export function WaitingRoom() {
 
           {round2Predictions.length > 0 && (
             <div className="waiting-bet-confirmation" style={{ marginTop: '16px' }}>
-              <p className="waiting-label">YOUR ROUND 2 PREDICTIONS</p>
+              <p className="waiting-label">YOUR PREDICTIONS. YOUR CONSEQUENCES.</p>
               {round2Predictions.map((prediction) => (
                 <p key={prediction.id}>
                   {teams.find((item) => item.id === prediction.target_team_id)?.team_name ?? 'Team'} · {prediction.amount} coins · {prediction.status.toUpperCase()}{prediction.status === 'won' ? ` · Payout ${prediction.payout} coins` : ''}
@@ -632,8 +631,8 @@ export function WaitingRoom() {
         <section className="waiting-teams">
           <div className="waiting-section-heading">
             <div>
-              <p className="waiting-label">THE COMPETITION</p>
-              <h2>Teams in the room</h2>
+              <p className="waiting-label">THE PEOPLE WHO COULD RUIN YOUR DAY</p>
+              <h2>Meet Your Potential Downfall</h2>
             </div>
             <span className="waiting-team-count">
               {teams.length} {teams.length === 1 ? 'TEAM' : 'TEAMS'}
@@ -641,7 +640,7 @@ export function WaitingRoom() {
           </div>
 
           {loading && (
-            <p className="waiting-message">Finding your fellow competitors…</p>
+            <p className="waiting-message">Locating your future enemies…</p>
           )}
 
           {error && (
@@ -672,10 +671,10 @@ export function WaitingRoom() {
                       <p className="waiting-team-name">{item.team_name}</p>
                       <p className="waiting-team-caption">
                         {isCurrentTeam
-                          ? 'YOUR TEAM'
+                          ? 'YOUR TEAM · MAIN CHARACTERS'
                           : isEliminated
-                            ? 'ELIMINATED'
-                            : 'COMPETITOR'}
+                            ? 'ELIMINATED · OOF'
+                            : 'COMPETITOR · PROBABLY CONFIDENT'}
                       </p>
                     </div>
 
@@ -692,16 +691,17 @@ export function WaitingRoom() {
 
               {teams.length === 0 && (
                 <p className="waiting-message">
-                  The room is quiet. Other teams will appear here when they join.
+                  It is suspiciously quiet. Rivals will appear when they join.
                 </p>
               )}
             </div>
           )}
+
         </section>
 
         <footer className="waiting-footer">
-          <span>STAY SHARP.</span>
-          <span>THE GAME STARTS WHEN THE HOST SAYS SO.</span>
+          <span>THINK FAST. BLUFF FASTER.</span>
+          <span>THE HOST HAS THE POWER. BE NICE TO THEM.</span>
         </footer>
       </div>
     </main>

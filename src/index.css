@@ -1,111 +1,788 @@
+@import "tailwindcss";
+
+/* ==========================================
+   PUZZLES 2026 — CHAOS MODE VISUAL PATCH
+   Append to the END of src/index.css
+   ========================================== */
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --chaos-bg: #0b0c0f;
+  --chaos-panel: #14161a;
+  --chaos-panel-raised: #1b1e23;
+  --chaos-border: #30343b;
+  --chaos-gold: #e1bf55;
+  --chaos-gold-bright: #f5d978;
+  --chaos-text: #f7f5ef;
+  --chaos-muted: #a5a8b0;
+}
 
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+/* Stronger overall atmosphere */
+body {
+  background:
+    radial-gradient(
+      ellipse at 50% -10%,
+      rgba(225, 191, 85, 0.12),
+      transparent 48%
+    ),
+    var(--chaos-bg);
+  color: var(--chaos-text);
+}
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.puzzles-page,
+.waiting-page,
+.host-page {
+  isolation: isolate;
+}
 
-  @media (max-width: 1024px) {
-    font-size: 16px;
+/* Premium panels with depth */
+.puzzles-panel,
+.waiting-balance,
+.waiting-teams,
+.waiting-page .waiting-betting,
+.host-section,
+.host-card,
+.host-stat-card,
+.host-dashboard-header {
+  border-color: var(--chaos-border);
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.018);
+}
+
+/* Bigger, more confident headings */
+.waiting-header h1,
+.host-header h1,
+.host-dashboard h1,
+.puzzles-page h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+.waiting-header h1 span,
+.host-header h1 span {
+  color: var(--chaos-gold);
+}
+
+/* Gold should feel premium, not fluorescent */
+.waiting-coins,
+.host-stat-value,
+.host-stat-card strong,
+.host-team-balance strong {
+  color: var(--chaos-gold-bright);
+}
+
+/* Cards respond when players interact */
+.waiting-team-row,
+.waiting-difficulty,
+.host-team-row,
+.host-bet-card,
+.host-team-card {
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.waiting-team-row:hover,
+.host-team-row:hover,
+.host-team-card:hover {
+  border-color: #625431;
+}
+
+.waiting-difficulty:hover:not(:disabled),
+.host-bet-card:hover {
+  border-color: #77663a;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+.waiting-difficulty:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+/* Primary actions: game-show energy */
+.puzzles-button,
+.waiting-submit-bet,
+.host-start-button {
+  background: linear-gradient(
+    135deg,
+    var(--chaos-gold-bright),
+    #d1ad43
+  );
+  border-color: #e2c15d;
+  color: #17150e;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  box-shadow: 0 5px 18px rgba(225, 191, 85, 0.08);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+.puzzles-button:hover:not(:disabled),
+.waiting-submit-bet:hover:not(:disabled),
+.host-start-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(225, 191, 85, 0.16);
+}
+
+.puzzles-button:active:not(:disabled),
+.waiting-submit-bet:active:not(:disabled),
+.host-start-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+/* Better input fields */
+.puzzles-page section input,
+.waiting-bet-input input,
+.puzzles-page section textarea,
+.puzzles-page section select {
+  border-color: #383c43;
+  border-radius: 11px;
+  background: #101216;
+  color: var(--chaos-text);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.puzzles-page section input:focus,
+.waiting-bet-input input:focus {
+  border-color: var(--chaos-gold);
+  box-shadow: 0 0 0 3px rgba(225, 191, 85, 0.09);
+}
+
+/* Auction cards: make them feel important */
+.host-bet-card {
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      ellipse at top right,
+      rgba(225, 191, 85, 0.045),
+      transparent 58%
+    ),
+    linear-gradient(145deg, #191b20, #121418);
+}
+
+.host-bet-details h3 {
+  color: var(--chaos-text);
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Clear status and error messages */
+.host-alert-success {
+  border-color: #315b3b;
+  background: #142219;
+}
+
+.host-alert-error {
+  border-color: #713a35;
+  background: #291918;
+}
+
+/* Consistent buttons across host controls */
+.host-dashboard button,
+.host-section button {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.host-dashboard button:hover:not(:disabled),
+.host-section button:hover:not(:disabled) {
+  border-color: #85703a;
+}
+
+/* Small screens: keep everything usable */
+@media (max-width: 600px) {
+  .waiting-header h1 {
+    font-size: clamp(34px, 10vw, 48px);
+  }
+
+  .waiting-balance {
+    gap: 12px;
+  }
+
+  .host-section,
+  .host-card {
+    padding: 17px;
+  }
+
+  .host-bet-card {
+    gap: 14px;
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+/* Accessibility: respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .waiting-team-row,
+  .waiting-difficulty,
+  .host-team-row,
+  .host-bet-card,
+  .host-team-card,
+  button {
+    transition: none !important;
   }
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
+  .waiting-difficulty:hover:not(:disabled),
+  .host-bet-card:hover,
+  button:hover:not(:disabled) {
+    transform: none;
   }
 }
+/* ==========================================
+   PUZZLES 2026 — CHAOS MODE VISUAL PATCH
+   Append to the END of src/index.css
+   ========================================== */
 
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+:root {
+  --chaos-bg: #0b0c0f;
+  --chaos-panel: #14161a;
+  --chaos-panel-raised: #1b1e23;
+  --chaos-border: #30343b;
+  --chaos-gold: #e1bf55;
+  --chaos-gold-bright: #f5d978;
+  --chaos-text: #f7f5ef;
+  --chaos-muted: #a5a8b0;
 }
 
 body {
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(225, 191, 85, 0.12), transparent 48%),
+    var(--chaos-bg);
+  color: var(--chaos-text);
+}
+
+.puzzles-page,
+.waiting-page,
+.host-page {
+  isolation: isolate;
+}
+
+.puzzles-panel,
+.waiting-balance,
+.waiting-teams,
+.waiting-page .waiting-betting,
+.host-section,
+.host-card,
+.host-stat-card,
+.host-dashboard-header {
+  border-color: var(--chaos-border);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.018);
+}
+
+.waiting-header h1,
+.host-header h1,
+.host-dashboard h1,
+.puzzles-page h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+.waiting-header h1 span,
+.host-header h1 span {
+  color: var(--chaos-gold);
+}
+
+.waiting-coins,
+.host-stat-value,
+.host-stat-card strong,
+.host-team-balance strong {
+  color: var(--chaos-gold-bright);
+}
+
+.waiting-team-row,
+.waiting-difficulty,
+.host-team-row,
+.host-bet-card,
+.host-team-card {
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.waiting-team-row:hover,
+.host-team-row:hover,
+.host-team-card:hover {
+  border-color: #625431;
+}
+
+.waiting-difficulty:hover:not(:disabled),
+.host-bet-card:hover {
+  border-color: #77663a;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+}
+
+.waiting-difficulty:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.puzzles-button,
+.waiting-submit-bet,
+.host-start-button {
+  background: linear-gradient(135deg, var(--chaos-gold-bright), #d1ad43);
+  border-color: #e2c15d;
+  color: #17150e;
+  font-weight: 800;
+  letter-spacing: 0.025em;
+  box-shadow: 0 5px 18px rgba(225, 191, 85, 0.08);
+  transition:
+    transform 160ms ease,
+    box-shadow 160ms ease,
+    filter 160ms ease;
+}
+
+.puzzles-button:hover:not(:disabled),
+.waiting-submit-bet:hover:not(:disabled),
+.host-start-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(225, 191, 85, 0.16);
+}
+
+.puzzles-button:active:not(:disabled),
+.waiting-submit-bet:active:not(:disabled),
+.host-start-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.puzzles-page section input,
+.waiting-bet-input input,
+.puzzles-page section textarea,
+.puzzles-page section select {
+  border-color: #383c43;
+  border-radius: 11px;
+  background: #101216;
+  color: var(--chaos-text);
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.puzzles-page section input:focus,
+.waiting-bet-input input:focus {
+  border-color: var(--chaos-gold);
+  box-shadow: 0 0 0 3px rgba(225, 191, 85, 0.09);
+}
+
+.host-bet-card {
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at top right, rgba(225, 191, 85, 0.045), transparent 58%),
+    linear-gradient(145deg, #191b20, #121418);
+}
+
+.host-bet-details h3 {
+  color: var(--chaos-text);
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.host-alert-success {
+  border-color: #315b3b;
+  background: #142219;
+}
+
+.host-alert-error {
+  border-color: #713a35;
+  background: #291918;
+}
+
+.host-dashboard button,
+.host-section button {
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.host-dashboard button:hover:not(:disabled),
+.host-section button:hover:not(:disabled) {
+  border-color: #85703a;
+}
+
+/* Round 4 preview only — it cannot be clicked yet. */
+.host-round4-card {
+  border-color: rgba(225, 191, 85, 0.32);
+  background:
+    radial-gradient(ellipse at top right, rgba(225, 191, 85, 0.08), transparent 60%),
+    #14161a;
+}
+
+.host-round4-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.25);
+}
+
+.host-admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.host-admin-grid label,
+.host-match-controls label {
+  display: grid;
+  gap: 6px;
+}
+
+.host-admin-grid input,
+.host-admin-grid select,
+.host-match-controls select {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--chaos-border);
+  border-radius: 10px;
+  background: #101216;
+  color: var(--chaos-text);
+}
+
+.host-match-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  align-items: end;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .waiting-header h1 {
+    font-size: clamp(34px, 10vw, 48px);
+  }
+
+  .waiting-balance {
+    gap: 12px;
+  }
+
+  .host-section,
+  .host-card {
+    padding: 17px;
+  }
+
+  .host-bet-card {
+    gap: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waiting-team-row,
+  .waiting-difficulty,
+  .host-team-row,
+  .host-bet-card,
+  .host-team-card,
+  button {
+    transition: none !important;
+  }
+
+  .waiting-difficulty:hover:not(:disabled),
+  .host-bet-card:hover,
+  button:hover:not(:disabled) {
+    transform: none;
+  }
+}
+/* ROAD AHEAD — alignment and spacing fix */
+
+.host-round-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.host-round-card {
+  box-sizing: border-box;
+  min-width: 0;
+  padding: 24px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.host-round-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  margin: 0;
+  line-height: 1;
+}
+
+.host-round-card h3,
+.host-round-card p {
   margin: 0;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+.host-round-card h3 {
+  line-height: 1.35;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+.host-round-card p {
+  line-height: 1.6;
+}
+
+.host-round-card > strong {
+  margin-top: 8px;
+}
+
+.host-round4-button {
+  margin-top: 8px;
+  max-width: 100%;
+}
+
+@media (max-width: 650px) {
+  .host-round-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .host-round-card {
+    padding: 20px;
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
+/* ROAD AHEAD — FORCE CARD SPACING */
+
+.host-dashboard .host-round-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  align-items: stretch;
+}
+
+.host-dashboard .host-round-grid > .host-round-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 24px !important;
+  border: 1px solid #30343b;
+  border-radius: 18px !important;
+  box-sizing: border-box;
+}
+
+.host-dashboard .host-round-card .host-round-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  margin: 0 !important;
+}
+
+.host-dashboard .host-round-card h3,
+.host-dashboard .host-round-card p {
+  margin: 0 !important;
+}
+
+.host-dashboard .host-round-card h3 {
+  line-height: 1.4;
+}
+
+.host-dashboard .host-round-card p {
+  line-height: 1.6;
+}
+
+.host-dashboard .host-round-card > strong {
+  margin-top: 6px;
+}
+
+@media (max-width: 650px) {
+  .host-dashboard .host-round-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+/* PUZZLES 2026 — ROAD AHEAD ALIGNMENT FIX */
+
+.host-dashboard .host-round-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  align-items: stretch;
+}
+
+.host-dashboard .host-round-grid > .host-round-card {
+  box-sizing: border-box;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 24px !important;
+  border-radius: 18px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.host-dashboard .host-round-card .host-round-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 !important;
+  flex-shrink: 0;
+}
+
+.host-dashboard .host-round-card h3,
+.host-dashboard .host-round-card p {
+  margin: 0 !important;
+  line-height: 1.6;
+}
+
+.host-dashboard .host-round-card > strong {
+  margin-top: 6px;
+}
+
+@media (max-width: 650px) {
+  .host-dashboard .host-round-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+/* ROAD AHEAD — FINAL LAYOUT FIX */
+
+.host-round-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  width: 100%;
+}
+
+.host-round-grid > .host-round-card {
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 24px !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  border-radius: 18px !important;
+}
+
+.host-round-card .host-round-number {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.host-round-card h3,
+.host-round-card p {
+  margin: 0 !important;
+}
+
+@media (max-width: 650px) {
+  .host-round-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+}
+/* ROAD AHEAD — DEFINITIVE FIX */
+
+.host-dashboard .host-section .host-round-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  align-items: stretch !important;
+}
+
+.host-dashboard .host-section .host-round-grid > article.host-round-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+  gap: 14px !important;
+
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  padding: 24px !important;
+
+  box-sizing: border-box !important;
+  border: 1px solid #30343b !important;
+  border-radius: 18px !important;
+}
+
+.host-dashboard .host-section .host-round-grid > article.host-round-card > * {
+  margin: 0 !important;
+}
+
+.host-dashboard .host-section .host-round-grid .host-round-number {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 650px) {
+  .host-dashboard .host-section .host-round-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+}
+/* PUZZLES 2026 — ROAD AHEAD GRID FIX */
+
+.host-dashboard .host-round-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+  width: 100%;
+  align-items: stretch;
+}
+
+.host-dashboard .host-round-grid > .host-round-card {
+  min-width: 0;
+  width: 100%;
+  margin: 0 !important;
+  padding: 24px !important;
+  box-sizing: border-box;
+  border-radius: 16px !important;
+}
+
+.host-dashboard .host-round-card .host-round-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 8px;
+}
+
+.host-dashboard .host-round-card h3 {
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+}
+
+.host-dashboard .host-round-card p {
+  margin: 0 0 12px;
+  line-height: 1.6;
+}
+
+.host-dashboard .host-round-card > strong {
+  display: block;
+  margin-top: 4px;
+}
+
+@media (max-width: 650px) {
+  .host-dashboard .host-round-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
   }
-}
-p {
-  margin: 0;
-}
-
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
-}
-
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
 }
