@@ -202,7 +202,7 @@ export function AuthPage() {
             The competition begins
           </p>
           <h1 className="text-4xl font-black tracking-[0.12em] text-[#f5f0e6] sm:text-5xl">
-            PUZZLES
+          COINSPIRACY
           </h1>
           <div className="mx-auto mt-3 flex items-center justify-center gap-3">
             <span className="h-px w-10 bg-yellow-600/60" />
@@ -395,7 +395,7 @@ export function AuthPage() {
 
         <footer className="mt-7 text-center">
           <p className="text-xs tracking-wide text-zinc-600">
-            PUZZLES 2026 · THINK BIG. PLAY SMART.
+            <h1>COINSPIRACY</h1> · THINK BIG. PLAY SMART.
           </p>
         </footer>
       </div>

@@ -58,7 +58,7 @@ export default function HostDashboard() {
 
   const [event, setEvent] = useState<Event | null>(null);
   const [teams, setTeams] = useState<Team[]>([]);
-  const [round, setRound] = useState<GameRound | null>(null);
+  const [, setRound] = useState<GameRound | null>(null);
   const [bets, setBets] = useState<TeamBet[]>([]);
   const [matches, setMatches] = useState<Round2Match[]>([]);
   const [predictions, setPredictions] = useState<Round2Prediction[]>([]);
@@ -609,7 +609,7 @@ export default function HostDashboard() {
     return (
       <main className="host-dashboard puzzles-page">
         <section className="host-section">
-          <h1>COINSPIRACY</h1>
+          <h1>PUZZLES 2026</h1>
           <p>No event is linked to this host account yet.</p>
           {errorMessage && <p className="host-alert-error">{errorMessage}</p>}
           <button type="button" onClick={() => void loadDashboard}>REFRESH DASHBOARD</button>
