@@ -386,7 +386,7 @@ export function WaitingRoom() {
       <div className="waiting-shell">
         <header className="waiting-header">
           <div className="waiting-mark">♛</div>
-          <p className="waiting-eyebrow">PUZZLES 2026 · THE CHAOS DEPARTMENT</p>
+          <p className="waiting-eyebrow">COINSPIRACY · THE CHAOS DEPARTMENT</p>
           <h1>
             You're in,
             <br />

@@ -609,7 +609,7 @@ export default function HostDashboard() {
     return (
       <main className="host-dashboard puzzles-page">
         <section className="host-section">
-          <h1>PUZZLES 2026</h1>
+          <h1>COINSPIRACY</h1>
           <p>No event is linked to this host account yet.</p>
           {errorMessage && <p className="host-alert-error">{errorMessage}</p>}
           <button type="button" onClick={() => void loadDashboard}>REFRESH DASHBOARD</button>

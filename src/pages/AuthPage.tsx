@@ -79,7 +79,7 @@ export function AuthPage() {
         })
         if (sessionError) throw sessionError
         await refreshTeam()
-        setSuccess('Team registered! Welcome to Puzzles 2026.')
+        setSuccess('Team registered! Welcome to COINSPIRACY.')
       } else {
         setMode('login')
         setLoginType('team')
