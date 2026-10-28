@@ -554,6 +554,52 @@ export default function HostDashboard() {
     }
   };
 
+  const resetRegistrations = async () => {
+    if (!event || adminBusy) return;
+
+    const confirmed = window.confirm(
+      `RESET ALL REGISTRATIONS?\n\n` +
+      `This will permanently remove all ${teams.length} registered team(s) ` +
+      `and their game data for this event.\n\n` +
+      `The event and join code will be preserved, and registration will reopen.\n\n` +
+      `This cannot be undone. Continue?`,
+    );
+
+    if (!confirmed) return;
+
+    setAdminBusy(true);
+    setErrorMessage('');
+    setSuccessMessage('');
+
+    try {
+      const { data, error } = await supabase.rpc('host_reset_registrations', {
+        p_event_id: event.id,
+      });
+
+      if (error) throw error;
+
+      const result = data as { teams_removed?: number } | null;
+      setEditTeamId('');
+      setEditTeamName('');
+      setAdminTeamId('');
+      setTeamA('');
+      setTeamB('');
+
+      setSuccessMessage(
+        `Reset complete! ${result?.teams_removed ?? teams.length} team(s) removed. Registration is open.`,
+      );
+
+      await loadDashboard();
+    } catch (error) {
+      console.error('Could not reset registrations:', error);
+      setErrorMessage(
+        error instanceof Error ? error.message : 'Could not reset registrations.',
+      );
+    } finally {
+      setAdminBusy(false);
+    }
+  };
+
   const resetRound = async (roundNumber: 1 | 2) => {
     if (!event) return;
     if (!window.confirm(
@@ -850,6 +896,30 @@ export default function HostDashboard() {
       <section className="host-section">
         <h2>EMERGENCY POWERS · HANDLE WITH DRAMA</h2>
         <p>These controls can change live game data. Double-check before confirming.</p>
+        <div className="host-round-card" style={{ display: 'grid', gap: '12px', marginBottom: '18px' }}>
+          <h3>Reset Registrations</h3>
+          <p>
+            Clear all registered teams and game progress for a fresh session.
+            Your event and join code will remain unchanged.
+          </p>
+          <button
+            type="button"
+            disabled={adminBusy}
+            onClick={() => void resetRegistrations()}
+            style={{
+              backgroundColor: '#b91c1c',
+              color: '#ffffff',
+              border: 'none',
+              padding: '12px 18px',
+              borderRadius: '8px',
+              fontWeight: 700,
+              cursor: adminBusy ? 'not-allowed' : 'pointer',
+              opacity: adminBusy ? 0.6 : 1,
+            }}
+          >
+            {adminBusy ? 'RESETTING…' : 'RESET ALL REGISTRATIONS'}
+          </button>
+        </div>
         <div className="host-round-card" style={{ display: 'grid', gap: '18px' }}>
           <div>
             <h3>Undo / Reset Rounds</h3>
